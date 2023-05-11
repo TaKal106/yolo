@@ -1,0 +1,20 @@
+运行指令：python tools/infer.py --weights weights/yolov6l.pt --source data/images/ --device 0 
+运行并生成txt：python tools/infer.py --weights weights/yolov6l.pt --source data/images/ --device 0 --save-txt
+weights选择:在infer20行调整，default中的weight在project/YOLOv6/weights中选择
+
+置信度选择：在tools/runs/infer.py  26行中的--conf-thres调整参数
+中间三排置信度=0.3；IOU=0.5效果比较好
+
+padding注意：如果是保留中间三排，就把中间部分都注释掉，保留上下部分就把上下涂黑部分注释掉            上下两排
+
+
+无光top     置信度 0.25，0.1            有光top         置信度  0.07 0.05
+无光middle  置信度 0.3 0.4              有光middle      置信度  0.2  0.1   
+无光bottom  置信度 0.25 0.1             有光bottom      置信度  0.03 0.1
+
+python tools/infer.py --weights weights/yolov6l.pt --source runs_light/padding_top_result/ --device 0 --save-txt --classes 39
+
+训练数据处理顺序padding->infer(注意36行修改目录位置)->crop(3.5：1)->resize
+测试数据处理顺序padding->infer(注意36行修改目录位置)->crop(3.5：1)
+
+
